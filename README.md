@@ -1,3 +1,3 @@
 # Spectra
 
-#Contact Info
+## A second-level heading
