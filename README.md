@@ -1,6 +1,6 @@
 # Spectra
-> [!NOTE] Spectra is a versatile streamable Roblox script crafted to enhance gameplay across a multitude of games like Da Hood, Frontlines, Arsenal, Phantom Forces, and beyond. With a wide array of unique features, Spectra ensures your gaming experience feels authentic and enjoyable while cheating undetected.
+> Spectra is a versatile streamable Roblox script crafted to enhance gameplay across a multitude of games like Da Hood, Frontlines, Arsenal, Phantom Forces, and beyond. With a wide array of unique features, Spectra ensures your gaming experience feels authentic and enjoyable while cheating undetected.
 # Contact Info
-* fardrew ( discord )
+> fardrew ( discord )
 # Features
 ```To Be Revealed...```
