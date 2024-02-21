@@ -1,4 +1,4 @@
 # Spectra
 
 # Contact Info
-fardrew ( discord )
+* fardrew ( discord )
