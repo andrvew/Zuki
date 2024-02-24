@@ -3971,7 +3971,7 @@ function library:Playerlist(max_players)
         create_player(plr)
     end
 
-    self.Playerlist = {button_size = 0, labels = 0, object = list, toggled = false}
+    self.Playerlist = {button_size = 0, labels = 0, object = list, toggled = true}
 
     function library.Playerlist:Button(options)
         utility.format(options)
@@ -5311,7 +5311,7 @@ function library:Load(options)
 
         misc:Toggle{
             name = "Show Player List",
-            default = library.keybind_list_default,
+            default = false,
             flag = "player_list",
             callback = function(value)
                 library.Playerlist.toggled = value
