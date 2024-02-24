@@ -5151,7 +5151,7 @@ function library:Load(options)
     function window_types:SettingsTab(watermark, unload)
         unload = unload or function() library.unload(library) end
 
-        local settings = self:Tab("settings")
+        local settings = self:Tab("  settings")
         local configs = settings:Section{name = "Configs"}
         local autoload
 
@@ -5226,6 +5226,26 @@ function library:Load(options)
             end
         }
 
+          autoload = configs:Toggle{
+            name = "Autoload Config",
+            default = false,
+            flag = "auto_load",
+            callback = function(value)
+                if library.initialized then
+                    local selected = library.flags["selected_config"];
+
+                    if (selected) then
+                        library:SetAutoLoadConfig(value and selected or "");
+
+                        if (value) then
+                            library:Notify{title = "Configuration", message = ("Successfully set config '%s' as auto load"):format(library.flags["selected_config"])}
+                        end
+                    end
+                end
+            end
+        }
+
+
         local themes, customTheme = settings:multiSection{Side = "middle", Sections = { "Themes", "Custom Theme" }}
         local theme_colorpickers = {}
         library.theme_colorpickers = theme_colorpickers;
@@ -5295,7 +5315,7 @@ function library:Load(options)
             }
         end
 
-        local misc = settings:Section{name = "Cheat", Side = "right"}
+        local misc = settings:Section{name = " ", Side = "right"}
 
         misc:Toggle{
             name = "Show Keybind List",
@@ -5310,7 +5330,7 @@ function library:Load(options)
 
         misc:Toggle{
             name = "Show Player List",
-            default = library.keybind_list_default,
+            default = false,
             flag = "player_list",
             callback = function(value)
                 library.Playerlist.toggled = value
