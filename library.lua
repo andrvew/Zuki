@@ -3693,7 +3693,7 @@ function library:Playerlist(max_players)
     })
 
     list:Create("Text", {
-        Text = "Playerlist",
+        Text = "Player List",
         Font = library.font,
         Size = library.font_size,
         Position = newUDim2(0, 6, 0, 4),
@@ -3971,7 +3971,7 @@ function library:Playerlist(max_players)
         create_player(plr)
     end
 
-    self.Playerlist = {button_size = 0, labels = 0, object = list, toggled = true}
+    self.Playerlist = {button_size = 0, labels = 0, object = list, toggled = false}
 
     function library.Playerlist:Button(options)
         utility.format(options)
@@ -4548,14 +4548,14 @@ function library:Load(options)
         easingstyle = Enum.EasingStyle.Linear,
         togglespeed = 0.2,
         notificationspeed = options.notifspeed or 0.2,
-        notificationxalignment = "right",
-        notificationyalignment = "bottom",
+        notificationxalignment = "left",
+        notificationyalignment = "top",
         watermarkxalignment = "left",
         watermarkyalignment = "top",
         playerlist = false,
         playerlistmax = options.maxplayers or 32,
         performancedrag = false,
-        keybindlist = false,
+        keybindlist = true,
         font = worldtoscreen ~= nil and "system" or "plex",
         fontsize = 13,
         discord = "dtCtU83nZd",
@@ -4609,7 +4609,7 @@ function library:Load(options)
     end
 
     self.title_bounds = self.holder:Create("Text", {
-        Text = options.title .. " |  ",
+        Text = options.title .. "  |  ",
         Font = self.font,
         Size = self.font_size,
         Position = newUDim2(0, 6, 0, 4),
