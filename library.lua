@@ -703,12 +703,12 @@ local library = {
     easing_style = Enum.EasingStyle.Quart,
     toggle_speed = 0.2,
     notification_speed = 0.5,
-    notification_x = "left",
+    notification_x = "right",
     notification_y = "bottom",
     watermark_x = "left",
     watermark_y = "top",
     font = worldtoscreen ~= nil and 1 or 2,
-    font_size = 13,
+    font_size = 14,
     themes = {
         Default = {
             ["Accent"] = fromRGB(255, 55, 55),
@@ -4548,7 +4548,7 @@ function library:Load(options)
         easingstyle = Enum.EasingStyle.Linear,
         togglespeed = 0.2,
         notificationspeed = options.notifspeed or 0.2,
-        notificationxalignment = "left",
+        notificationxalignment = "right",
         notificationyalignment = "bottom",
         watermarkxalignment = "left",
         watermarkyalignment = "top",
