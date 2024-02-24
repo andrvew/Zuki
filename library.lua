@@ -696,7 +696,7 @@ local library = {
     initialized = false,
     open = false,
     unloaded = false,
-    performance_drag = true,
+    performance_drag = false,
     paste_textbox = newInstance("TextBox"),
     unnamed_flags = 0,
     tween_speed = 0.1,
@@ -5226,25 +5226,6 @@ function library:Load(options)
             end
         }
 
-        autoload = configs:Toggle{
-            name = "Autoload Config",
-            default = false,
-            flag = "auto_load",
-            callback = function(value)
-                if library.initialized then
-                    local selected = library.flags["selected_config"];
-
-                    if (selected) then
-                        library:SetAutoLoadConfig(value and selected or "");
-
-                        if (value) then
-                            library:Notify{title = "Configuration", message = ("Successfully set config '%s' as auto load"):format(library.flags["selected_config"])}
-                        end
-                    end
-                end
-            end
-        }
-
         local themes, customTheme = settings:multiSection{Side = "middle", Sections = { "Themes", "Custom Theme" }}
         local theme_colorpickers = {}
         library.theme_colorpickers = theme_colorpickers;
@@ -5314,61 +5295,6 @@ function library:Load(options)
             }
         end
 
-        if watermark then
-            local watermark_section = settings:Section{name = "Watermark"}
-            watermark:Toggle()
-
-            watermark_section:Toggle{
-                name = "Show Watermark",
-                default = true,
-                flag = "show_watermark",
-                callback = function(bool)
-                    if library.watermark.Visible ~= bool then
-                        watermark:Toggle()
-                    end
-                end
-            }
-
-            watermark_section:Dropdown{
-                name = "Watermark Alignment",
-                default = library.watermark_y:gsub("^%l", upper) .. " " .. library.watermark_x:gsub("^%l", upper),
-                content = {"Top Left", "Top Right", "Bottom Left", "Bottom Right"},
-                flag = "watermark_alignment",
-                callback = function(alignment)
-                    if alignment then
-                        alignment = alignment:split(" ")
-                        local y, x = alignment[1], alignment[2]
-                        library:ChangeWatermarkPosition(x, y)
-                    end
-                end
-            }
-        end
-
-        local notifications_section = settings:Section{name = "Notifications"}
-
-        notifications_section:Slider{
-            name = "Notification Speed",
-            default = library.notification_speed,
-            min = 0,
-            max = 1,
-            callback = function(value)
-                library.notification_speed = value;
-            end
-        }
-
-        notifications_section:Dropdown{
-            name = "Notification Alignment",
-            default = library.notification_y:gsub("^%l", upper) .. " " .. library.notification_x:gsub("^%l", upper),
-            content = {"Top Left", "Top Right", "Bottom Left", "Bottom Right"},
-            callback = function(alignment)
-                if alignment then
-                    alignment = alignment:split(" ")
-                    local y, x = alignment[1], alignment[2]
-                    library:ChangeNotificationPosition(x, y)
-                end
-            end
-        }
-
         local misc = settings:Section{name = "Cheat", Side = "right"}
 
         misc:Toggle{
@@ -5392,15 +5318,6 @@ function library:Load(options)
                 if library.open then
                     library.Playerlist.object.Visible = value
                 end
-            end
-        }
-
-        misc:Toggle{
-            name = "Performance Drag",
-            default = library.performance_drag,
-            flag = "performance_drag",
-            callback = function(value)
-                library.performance_drag = value
             end
         }
 
