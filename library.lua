@@ -1,3 +1,9 @@
+--[[
+    Render object class thing for UI Libraries
+]]
+
+repeat task.wait() until game:IsLoaded()
+
 --// Localization
 local fromRGB = Color3.fromRGB
 local newUDim2 = UDim2.new
@@ -5450,4 +5456,5 @@ function library:Load(options)
     utility.format(window_types, true)
     return window_types
 end
+utility.format(library, true)
 return library;
