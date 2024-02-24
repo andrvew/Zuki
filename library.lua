@@ -1,10 +1,4 @@
---[[
-    Render object class thing for UI Libraries
-]]
-
-repeat task.wait() until game:IsLoaded()
-
--- Localization
+--// Localization
 local fromRGB = Color3.fromRGB
 local newUDim2 = UDim2.new
 local newVector2 = Vector2.new
@@ -19,7 +13,7 @@ local Signal={}local Connection={}Signal.__index=Signal;Connection.__index=Conne
 local List={}do List.__index=List;function List.new(object,padding)return setmetatable({_contentSize=0,_padding=padding,_positions={},_object=object,_objects={},_indexes={},_sizes={}},List)end;function List:AddObject(object)local size=object.AbsoluteSize.Y;local idx=#self._objects+1;local padding=#self._objects*self._padding;local position=self._contentSize;if object.Parent~=self._object then object.Parent=self._object end;object.Position=newUDim2(0,0,0,position)self._objects[idx]=object;self._positions[object]=position;self._indexes[object]=idx;self._sizes[object]=size;self._contentSize+=size+self._padding end;function List:RemoveObject(object)local size=self._sizes[object]+self._padding;local idx=self._indexes[object]for i,obj in next,self._objects do if i>idx then self._indexes[obj]-=1;self._positions[obj]-=size;obj.Position=newUDim2(0,0,0,self._positions[obj])end end;remove(self._objects,idx)self._contentSize-=size end;function List:UpdateObject(object)local diff=object.AbsoluteSize.Y-self._sizes[object]local idx=self._indexes[object]for i,obj in next,self._objects do if i>idx then self._positions[obj]+=diff;obj.Position=newUDim2(0,0,0,self._positions[obj])end end;self._sizes[object]+=diff;self._contentSize+=diff end end
 local Tween={}do Tween.__index=Tween;local render=game:GetService("RunService").RenderStepped;local sqrt,sin,pi,halfpi,doublepi=math.sqrt,math.sin,math.pi,math.pi/2,math.pi*2;local type=type;local wait=task.wait;local s=1.70158;local s1=2.5949095;local p=0.3;local p1=0.45;local EasingStyle={[Enum.EasingStyle.Linear]={[Enum.EasingDirection.In]=function(delta)return delta end,[Enum.EasingDirection.Out]=function(delta)return delta end,[Enum.EasingDirection.InOut]=function(delta)return delta end},[Enum.EasingStyle.Cubic]={[Enum.EasingDirection.In]=function(delta)return delta^3 end,[Enum.EasingDirection.Out]=function(delta)return(delta-1)^3+1 end,[Enum.EasingDirection.InOut]=function(delta)if delta<=0.5 then return(4*delta)^3 else return(4*(delta-1))^3+1 end end},[Enum.EasingStyle.Quad]={[Enum.EasingDirection.In]=function(delta)return delta^2 end,[Enum.EasingDirection.Out]=function(delta)return-(delta-1)^2+1 end,[Enum.EasingDirection.InOut]=function(delta)if delta<=0.5 then return(2*delta)^2 else return(-2*(delta-1))^2+1 end end},[Enum.EasingStyle.Quart]={[Enum.EasingDirection.In]=function(delta)return delta^4 end,[Enum.EasingDirection.Out]=function(delta)return-(delta-1)^4+1 end,[Enum.EasingDirection.InOut]=function(delta)if delta<=0.5 then return(8*delta)^4 else return(-8*(delta-1))^4+1 end end},[Enum.EasingStyle.Quint]={[Enum.EasingDirection.In]=function(delta)return delta^5 end,[Enum.EasingDirection.Out]=function(delta)return(delta-1)^5+1 end,[Enum.EasingDirection.InOut]=function(delta)if delta<=0.5 then return(16*delta)^5 else return(16*(delta-1))^5+1 end end},[Enum.EasingStyle.Sine]={[Enum.EasingDirection.In]=function(delta)return sin(halfpi*delta-halfpi)end,[Enum.EasingDirection.Out]=function(delta)return sin(halfpi*delta)end,[Enum.EasingDirection.InOut]=function(delta)return 0.5*sin(pi*delta-pi/2)+0.5 end},[Enum.EasingStyle.Exponential]={[Enum.EasingDirection.In]=function(delta)return 2^(10*delta-10)-0.001 end,[Enum.EasingDirection.Out]=function(delta)return 1.001*-2^(-10*delta)+1 end,[Enum.EasingDirection.InOut]=function(delta)if delta<=0.5 then return 0.5*2^(20*delta-10)-0.0005 else return 0.50025*-2^(-20*delta+10)+1 end end},[Enum.EasingStyle.Back]={[Enum.EasingDirection.In]=function(delta)return delta^2*(delta*(s+1)-s)end,[Enum.EasingDirection.Out]=function(delta)return(delta-1)^2*((delta-1)*(s+1)+s)+1 end,[Enum.EasingDirection.InOut]=function(delta)if delta<=0.5 then return(2*delta*delta)*((2*delta)*(s1+1)-s1)else return 0.5*((delta*2)-2)^2*((delta*2-2)*(s1+1)+s1)+1 end end},[Enum.EasingStyle.Bounce]={[Enum.EasingDirection.In]=function(delta)if delta<=0.25/2.75 then return-7.5625*(1-delta-2.625/2.75)^2+0.015625 elseif delta<=0.75/2.75 then return-7.5625*(1-delta-2.25/2.75)^2+0.0625 elseif delta<=1.75/2.75 then return-7.5625*(1-delta-1.5/2.75)^2+0.25 else return 1-7.5625*(1-delta)^2 end end,[Enum.EasingDirection.Out]=function(delta)if delta<=1/2.75 then return 7.5625*(delta*delta)elseif delta<=2/2.75 then return 7.5625*(delta-1.5/2.75)^2+0.75 elseif delta<=2.5/2.75 then return 7.5625*(delta-2.25/2.75)^2+0.9375 else return 7.5625*(delta-2.625/2.75)^2+0.984375 end end,[Enum.EasingDirection.InOut]=function(delta)if delta<=0.125/2.75 then return 0.5*(-7.5625*(1-delta*2-2.625/2.75)^2+0.015625)elseif delta<=0.375/2.75 then return 0.5*(-7.5625*(1-delta*2-2.25/2.75)^2+0.0625)elseif delta<=0.875/2.75 then return 0.5*(-7.5625*(1-delta*2-1.5/2.75)^2+0.25)elseif delta<=0.5 then return 0.5*(1-7.5625*(1-delta*2)^2)elseif delta<=1.875/2.75 then return 0.5+3.78125*(2*delta-1)^2 elseif delta<=2.375/2.75 then return 3.78125*(2*delta-4.25/2.75)^2+0.875 elseif delta<=2.625/2.75 then return 3.78125*(2*delta-5/2.75)^2+0.96875 else return 3.78125*(2*delta-5.375/2.75)^2+0.9921875 end end},[Enum.EasingStyle.Elastic]={[Enum.EasingDirection.In]=function(delta)return-2^(10*(delta-1))*sin(doublepi*(delta-1-p/4)/p)end,[Enum.EasingDirection.Out]=function(delta)return 2^(-10*delta)*sin(doublepi*(delta-p/4)/p)+1 end,[Enum.EasingDirection.InOut]=function(delta)if delta<=0.5 then return-0.5*2^(20*delta-10)*sin(doublepi*(delta*2-1.1125)/p1)else return 0.5*2^(-20*delta+10)*sin(doublepi*(delta*2-1.1125)/p1)+1 end end},[Enum.EasingStyle.Circular]={[Enum.EasingDirection.In]=function(delta)return-sqrt(1-delta^2)+1 end,[Enum.EasingDirection.Out]=function(delta)return sqrt(-(delta-1)^2+1)end,[Enum.EasingDirection.InOut]=function(delta)if delta<=0.5 then return-sqrt(-delta^2+0.25)+0.5 else return sqrt(-(delta-1)^2+0.25)+0.5 end end}}local function lerp(value1,value2,alpha)if type(value1)=="number"then return value1+((value2-value1)*alpha)end;return value1:lerp(value2,alpha)end;function Tween.new(object,info,properties)return setmetatable({Completed=Signal.new(),_object=object,_time=info.Time,_easing=EasingStyle[info.EasingStyle][info.EasingDirection],_properties=properties},Tween)end;function Tween:Play()for property,value in next,self._properties do local start_value=self._object[property]spawn(function()local elapsed=0;while elapsed<=self._time and not self._cancelled do local delta=elapsed/self._time;local alpha=self._easing(delta)spawn(function()self._object[property]=lerp(start_value,value,alpha)end)elapsed+=render:Wait()end;if not self._cancelled then self._object[property]=value end end)end;spawn(function()wait(self._time)if not self._cancelled then self.Completed:Fire()end end)end;function Tween:Cancel()self._cancelled=true end end
 
--- Library
+--// Library
 genv.render_cache = render_cache or {}
 
 genv.clear_renders = clear_renders or function()
@@ -675,9 +669,8 @@ local upper = string.upper
 local round, clamp, floor = math.round, math.clamp, math.floor
 local newInfo = TweenInfo.new
 local newColor3, fromHex, fromHSV = Color3.new, Color3.fromHex, Color3.fromHSV
-local decode = (syn and syn.crypt.base64.decode) or (crypt and crypt.base64decode) or base64_decode
 local unpack, clear, clone, find, concat = table.unpack, table.clear, table.clone, table.find, table.concat
-local request = syn and syn.request or request
+local request = request
 local inset = services.GuiService:GetGuiInset().Y
 local wait = task.wait
 
@@ -712,7 +705,7 @@ local library = {
     font_size = 13,
     themes = {
         Default = {
-            ["Accent"] = fromRGB(113, 93, 133),
+            ["Accent"] = fromRGB(255, 55, 55),
             ["Window Background"] = fromRGB(30, 30, 30),
             ["Window Border"] = fromRGB(65, 65, 65),
             ["Black Border"] = fromRGB(10, 10, 10),
@@ -1334,7 +1327,7 @@ function components.toggle(holder, options, zindex)
         Size = newUDim2(1, 0, 1, 0),
         Transparency = 0.4,
         ZIndex = zindex + 1,
-        Data = 'https://raw.githubusercontent.com/fardrew/Spectra/main/images/cbimage7.png'
+        Data = game:HttpGet('https://raw.githubusercontent.com/fardrew/Spectra/main/images/cbimage7.png')
     })
 
     holder.text.Position = newUDim2(0, 16, 0, 0)
@@ -2328,7 +2321,7 @@ function components.colorpicker(holder, options, zindex)
         Size = newUDim2(1, 0, 1, 0),
         ZIndex = zindex + 17,
         Ignored = true,
-        Data = 'https://raw.githubusercontent.com/fardrew/Spectra/main/images/cbimage2.png'
+        Data = game:HttpGet('https://raw.githubusercontent.com/fardrew/Spectra/main/images/cbimage2.png')
     })
 
     local saturation_picker = saturation_frame:Create("Square", {
@@ -2343,7 +2336,7 @@ function components.colorpicker(holder, options, zindex)
         Position = newUDim2(0, 6, 1, -37),
         Outline = true,
         OutlineTheme = "Object Border",
-        Data = 'https://raw.githubusercontent.com/fardrew/Spectra/main/images/cbimage3.png'
+        Data = game:HttpGet('https://raw.githubusercontent.com/fardrew/Spectra/main/images/cbimage3.png')
     })
 
     local hue_picker = hue_frame:Create("Square", {
@@ -2368,7 +2361,7 @@ function components.colorpicker(holder, options, zindex)
             ZIndex = zindex + 17,
             Ignored = true,
             Transparency = 1,
-            Data = 'https://raw.githubusercontent.com/fardrew/Spectra/main/images/cbimage4.png'
+            Data = game:HttpGet('https://raw.githubusercontent.com/fardrew/Spectra/main/images/cbimage4.png')
         })
     
         alpha_picker = alpha_frame:Create("Square", {
@@ -2577,7 +2570,7 @@ function components.subgroup(holder, options, zindex)
     icon:Create("Image", {
         Size = newUDim2(1, 0, 1, 0),
         ZIndex = zindex - 1,
-        Data = 'https://raw.githubusercontent.com/fardrew/Spectra/main/images/cbimage5.png'
+        Data = game:HttpGet('https://raw.githubusercontent.com/fardrew/Spectra/main/images/cbimage5.png')
     });
 
     local window = icon:Create("Square", {
@@ -3230,7 +3223,7 @@ function library:Loader(options)
     utility.format(options);
 
     utility.defaults(options, {
-        title = "Exodus",
+        title = "spectra",
         description = "Loading...",
         percentage = 50,
         date = "16/01/22",
@@ -3386,7 +3379,7 @@ function library:Loader(options)
         Size = newUDim2(1, 0, 1, 0),
         Transparency = 0.5,
         ZIndex = 128,
-        Data = 'https://raw.githubusercontent.com/fardrew/Spectra/main/images/cbimage6.png'
+        Data = game:HttpGet('https://raw.githubusercontent.com/fardrew/Spectra/main/images/cbimage2.png')
     })
 
     local load = holder:Create("Square", {
@@ -4539,10 +4532,10 @@ function library:Load(options)
     utility.format(options)
 
     utility.defaults(options, {
-        title = options.name or "exodus",
+        title = options.name or "spectra",
         theme = "Default",
         overrides = {},
-        folder = "exodus",
+        folder = "spectra",
         extension = "json",
         game = "universal",
         tweenspeed = options.animspeed or 0.1,
@@ -4559,7 +4552,7 @@ function library:Load(options)
         keybindlist = true,
         font = worldtoscreen ~= nil and "system" or "plex",
         fontsize = 13,
-        discord = "6wp393UeCc",
+        discord = "dtCtU83nZd",
         sizex = 700,
         sizey = 550
     })
@@ -5152,7 +5145,7 @@ function library:Load(options)
     function window_types:SettingsTab(watermark, unload)
         unload = unload or function() library.unload(library) end
 
-        local settings = self:Tab("Settings")
+        local settings = self:Tab("settings")
         local configs = settings:Section{name = "Configs"}
         local autoload
 
@@ -5396,14 +5389,14 @@ function library:Load(options)
             end
         }
 
-        --[[misc:Toggle{
+        misc:Toggle{
             name = "Performance Drag",
             default = library.performance_drag,
             flag = "performance_drag",
             callback = function(value)
                 library.performance_drag = value
             end
-        }]]
+        }
 
         misc:Keybind{
             name = "Menu Key",
@@ -5418,53 +5411,6 @@ function library:Load(options)
             end
         }
 
-        misc:Keybind{
-            name = "Panic Key",
-            default = Enum.KeyCode.End,
-            blacklist = {Enum.UserInputType.MouseButton1, Enum.UserInputType.MouseButton2, Enum.UserInputType.MouseButton3},
-            flag = "panic_key",
-            listignored = true,
-            callback = function(_, from_setting)
-                if not from_setting then
-                    (unload or function()
-                        library:Unload();
-                    end)();
-                end
-            end
-        }
-
-        misc:Slider{
-            name = "Tween Speed",
-            default = library.tween_speed,
-            min = 0,
-            max = 1,
-            flag = "tween_speed",
-            callback = function(value)
-                library.tween_speed = value;
-            end
-        }
-
-        misc:Slider{
-            name = "Fade Speed",
-            default = library.fade_speed,
-            min = 0,
-            max = 1,
-            flag = "fade_speed",
-            callback = function(value)
-                library.toggle_speed = value;
-            end
-        }
-
-        misc:Dropdown{
-            name = "Easing Style",
-            default = tostring(library.easing_style):gsub("Enum.EasingStyle.", ""),
-            content = {"Linear", "Sine", "Back", "Quad", "Quart", "Quint", "Bounce", "Elastic", "Exponential", "Circular", "Cubic"},
-            flag = "easing_style",
-            callback = function(style)
-                library.easing_style = Enum.EasingStyle[style]
-            end
-        }
-
         misc:Button{
             name = "Unload",
             callback = unload or function()
@@ -5473,14 +5419,7 @@ function library:Load(options)
         }
 
         misc:Button{
-            name = "Copy Game Invite (CONSOLE)",
-            callback = function()
-                setclipboard(('Roblox.GameLauncher.joinGameInstance(%s, "%s")'):format(game.PlaceId, game.JobId))
-            end
-        }
-
-        misc:Button{
-            name = "Copy Game Invite (LUA)",
+            name = "Copy Game Invite",
             callback = function()
                 setclipboard(('game:GetService("TeleportService"):TeleportToPlaceInstance(%s, "%s")'):format(game.PlaceId, game.JobId))
             end
@@ -5505,144 +5444,10 @@ function library:Load(options)
             end
         }
 
-        misc:Button{
-            name = "Copy Discord Invite",
-            callback = function()
-                setclipboard(library.discord)
-            end
-        }
-
         return settings
     end
 
     utility.format(window_types, true)
     return window_types
 end
-
-
-local window = library:Load{playerlist = true}
-
-library.Playerlist:button{name = "Prioritize", callback = function(list, plr)
-    if not list:IsTagged(plr, "Prioritized") then
-        list:Tag{player = plr, text = "Prioritized", color = fromRGB(255, 0, 0)}
-    else
-        list:RemoveTag(plr, "Prioritized")
-    end
-end}
-
-library.Playerlist:button{name = "Ignore", callback = function(list, plr)
-    if not library.Playerlist:IsTagged(plr, "Ignored") then
-        library.Playerlist:Tag{player = plr, text = "Ignored", Color = fromRGB(120, 120, 120)}
-    else
-        library.Playerlist:RemoveTag(plr, "Ignored")
-    end
-end}
-
-library.Playerlist:Label{name = "Rank: ", handler = function(plr)
-    return "1e+9"
-end}
-
-library.Playerlist:Label{name = "Team: ", handler = function(plr)
-    return "Ghosts", fromRGB(209, 118, 0)
-end}
-
-
-local watermark = library:Watermark("exodus | dev | test | 2.3b fps")
-window:SettingsTab(watermark)
-
-local tab = window:Tab("rage")
-local tab2 = window:Tab("visuals")
-window:Tab("legit"):Section{
-    Side = "Middle"
-}
-
-tab:Section{}
-
-
-
-local sec = tab:Section{
-    Side = "Right"
-}
-
-local label = sec:Label("fart")
-label:Set("hi")
-
-sec:Button{}
-sec:Button{}
-sec:Button{}
-sec:Button{}
-sec:Dropdown{content = {"hi", "bye"}}
-
-sec:Button{}
-local m = sec:Separator()
-sec:Button{name = "save config", callback = function() library:SaveConfig("fart") end}
-sec:Button{name = "load config", callback = function() library:LoadConfig("fart", true) end}
-sec:Button{callback = function() m:Set("testing 123") end}
-
-local tog = sec:Toggle{}
-tog:Slider{}
-local f = tog:Colorpicker{alpha = 1}
-f:SetAlpha(0.5)
-
-tog:Colorpicker{}
-
-local togel = sec:Toggle{}
-togel:Colorpicker{alpha = 1}
-togel:Colorpicker{}
-
-local togel = sec:Toggle{}
-togel:Slider{}
-
-local fartel = sec:Toggle{name = "aimbot"}
-fartel:Dropdown{}
-fartel:Keybind{mode = "hold", listname = "aimbot share fr"}
-
-local fartel = sec:Toggle{name = "keybind toggle"}
-fartel:Keybind{}
-
-sec:Box{
-    callback = function(str)
-        print(str)
-    end,
-    clearonfocus = false
-}
-
-sec:Slider{}
-sec:Keybind{}
-local label = sec:Label("fart")
-
-local enemies, teammates = tab:MultiSection{
-    Side = "Right",
-    Sections = {"enemies", "teammates"}
-}
-
-enemies:Button{}
-enemies:Button{}
-
-teammates:Button{}
-teammates:Button{}
-teammates:Button{name = "fart"}
-teammates:Button{}
-
-local label = teammates:Label("fart")
-label:Set("hi")
-
-local tab2 = window:Tab("test")
-local f = tab2:SubTab("hi")
-local g = tab2:SubTab("testf")
-local r = f:Section{name = "fart"}
-r:Button{}
-
-local r = g:Section{name = "poop"}
-r:Button{}
-
-library:Init()
---wait(10)
---library:Unload()
-library:Notify{duration = 3, Color = fromRGB(0, 0, 0)}
-task.wait(1)
-
-library:Notify{duration = 3, Color = fromRGB(0, 0, 0)}
-
-utility.format(library, true)
 return library;
