@@ -5151,7 +5151,7 @@ function library:Load(options)
     function window_types:SettingsTab(watermark, unload)
         unload = unload or function() library.unload(library) end
 
-        local settings = self:Tab("  settings")
+        local settings = self:Tab("settings")
         local configs = settings:Section{name = "Configs"}
         local autoload
 
