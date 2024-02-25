@@ -160,12 +160,12 @@ end;
 -- // Library
 local themes = {
     ["Default"] = {
-        ["Accent"] = Color3.fromRGB(255, 255, 255);
+        ["Accent"] = Color3.fromRGB(255, 40, 40);
         ["Un-Selected"] = Color3.fromRGB(55,55,55);
         ["Un-Selected_Text"] = Color3.fromRGB(118,118,118);
-        ["Text"] = Color3.fromRGB(175,175,175);
+        ["Text"] = Color3.fromRGB(167,167,167);
         ["Risky Text"] = Color3.fromRGB(255, 242, 126);
-        ["Toggle Background"] = Color3.fromRGB(77, 77, 77);
+        ["Toggle Background"] = Color3.fromRGB(25, 25, 25);
         ["Toggle Background Highlight"] = Color3.fromRGB(88,88,88);
     };
 }
