@@ -422,7 +422,7 @@ function library:set_open(bool)
                 false,
                 Enum.UserInputType.MouseButton1
             );
-            InputService.MouseIconEnabled = false
+            InputService.MouseIconEnabled = true
         else
             InputService.MouseIconEnabled = originalState
             ContextActionService:UnbindAction("Scrolling");
