@@ -6107,6 +6107,27 @@ function library:new(cfg)
     return window;
 end;
 --
+function library:unload()
+    self.open = true
+
+    for connection, _ in next, self.connections do
+        library:Disconnect(connection)
+    end
+
+    self.holder:Remove()
+
+    if (self.watermark and typeof(self.watermark) ~= "function") then
+        self.watermark:Remove()
+    end
+
+    for _, notification in next, self.notifications do
+        notification:Remove()
+    end
+
+    for _, drawings in next, self.drawings do
+        drawings:Remove()
+    end
+end
 function library:notify(info)
     local ntif = {instances = {},create_tick = tick()};
     local title = info.text or info.Text or "nil name";
