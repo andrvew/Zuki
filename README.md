@@ -38,13 +38,6 @@ getgenv().scriptSettings = {
         Total = 1,
         MinimumMemory = math.random(300, 350)
     },
-
-    ['GLOBAL_AntiCurve'] = { -- // Anti-Curve won't enable silent aim if your target is behind you, or beside you // --
-        Enabled = false,
-        BehindPoint = 80,
-        BesidePoint = 80,
-        PrintDistance = true
-    },
     -----------------------------------------------------------------------------------------
     ['VISUAL_ShowFOV'] = true,
     ['VISUAL_WorldTextures'] = {
@@ -67,9 +60,7 @@ getgenv().scriptSettings = {
     ['SILENT_Customization'] = {
         ClosestPoint = false,
         ReductionPercentage = 0,
-
         SilentNotifier = true, --// When you turn it on or off, it'll have a sound effect to let you know it's on and off
-
         ClosestPart = true,
 
         FOV_Properties = { -- // COMING SOON!! Fov Type 2, 3 will only be added // --
