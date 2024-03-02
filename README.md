@@ -6,3 +6,4 @@
 > fardrew ( discord )
 # Clips / Images
 ![image](https://github.com/fardrew/Spectra/assets/160489710/0933f7cc-d677-451d-afbb-da388cd66363)
+![image](https://github.com/fardrew/Spectra/assets/160489710/4d45c51c-7e6f-4420-9a77-6d92f54e4cfd)
