@@ -3,5 +3,5 @@
 # Discord
 > **https://discord.gg/dtCtU83nZd**
 # Contact Info
-> fardrew ( discord )
+> andxvrew ( discord )
 # Clips / Images
