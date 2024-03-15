@@ -1211,9 +1211,3 @@ do
         return window
     end
 end
---
-local window = library:Window({Name = "123"})
-local pag = window:Page({Name = "123"})
-local sec = pag:Section({Name = "123"})
-
-sec:Toggle({Name = "123", Default = true, Pointer = "123"})
