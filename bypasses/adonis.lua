@@ -1,4 +1,4 @@
-    --[[ Credits to whoever the Adonis Bypass <3 ]]--
+    --[[ Credits to whoever made the Adonis Bypass <3 ]]--
 
     for k, v in pairs(getgc(true)) do
         if pcall(function() return rawget(v, 'indexInstance') end) then
