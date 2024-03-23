@@ -1,5 +1,5 @@
 # Discord
-> **https://discord.gg/dtCtU83nZd**
+> **https://discord.gg/7tEpWDYKwh**
 # Contact Info
 > andvrew ( discord )
 # Clips / Images
